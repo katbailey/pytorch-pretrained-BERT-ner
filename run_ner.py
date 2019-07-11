@@ -271,7 +271,7 @@ def main():
     if args.local_rank not in [-1, 0]:
         torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
-    model = BertForNamedEntityRecognition.from_pretrained(args.bert_model, num_labels=num_labels)
+    model = BertForNamedEntityRecognition.from_pretrained(args.bert_model, max_seq_length=args.max_seq_length, num_labels=num_labels)
     if args.local_rank == 0:
         torch.distributed.barrier()
 
@@ -420,14 +420,14 @@ def main():
         tokenizer.save_vocabulary(args.output_dir)
 
         # Load a trained model and vocabulary that you have fine-tuned
-        model = BertForNamedEntityRecognition.from_pretrained(args.output_dir, num_labels=num_labels)
+        model = BertForNamedEntityRecognition.from_pretrained(args.output_dir, max_seq_length=args.max_seq_length, num_labels=num_labels)
         tokenizer = BertTokenizer.from_pretrained(args.output_dir, do_lower_case=args.do_lower_case)
 
         # Good practice: save your training arguments together with the trained model
         output_args_file = os.path.join(args.output_dir, 'training_args.bin')
         torch.save(args, output_args_file)
     else:
-        model = BertForNamedEntityRecognition.from_pretrained(args.bert_model, num_labels=num_labels)
+        model = BertForNamedEntityRecognition.from_pretrained(args.bert_model, max_seq_length=args.max_seq_length, num_labels=num_labels)
 
     model.to(device)
 
