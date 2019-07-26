@@ -268,6 +268,6 @@ def acc_and_f1(preds, labels):
     }
 
 
-def compute_metrics(task_name, preds, labels):
+def compute_metrics(preds, labels):
     assert len(preds) == len(labels)
     return acc_and_f1(preds, labels)
