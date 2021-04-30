@@ -20,4 +20,4 @@ sklearn==0.0
 tensorboardX==1.2
 torch==1.1.0
 tqdm==4.32.2
-urllib3==1.25.3
+urllib3==1.25.8
